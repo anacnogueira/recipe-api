@@ -15,13 +15,13 @@ return new class extends Migration
         Schema::create('recipes', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->text('description');
-            $table->text('ingredients');
-            $table->text('instructions');
-            $table->string('preparation_time');
-            $table->string('yield');
-            $table->string('category');
-            $table->string('url_image');
+            $table->text('description')->nullable();
+            $table->text('ingredients')->nullable();
+            $table->text('instructions')->nullable();
+            $table->string('preparation_time')->nullable();
+            $table->string('yield')->nullable();
+            $table->string('category')->nullable();
+            $table->string('url_image')->nullable();
             $table->foreignIdFor(User::class)->constrained();
             $table->timestamps();
         });
