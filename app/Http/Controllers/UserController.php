@@ -16,20 +16,13 @@ class UserController extends Controller
         return UserResource::collection(User::all());
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
 
     /**
      * Display the specified resource.
      */
     public function show(User $user)
     {
-        //
+        return UserResource::make($user);
     }
 
     /**
