@@ -23,6 +23,7 @@ class RecipeResource extends JsonResource
             'preparation_time' => $this->preparation_time,
             'yield' => $this->yield,
             'category' => $this->category,
+            'url_image' => $this->url_image,
             'user' => UserResource::make($this->whenLoaded('user')),
             'links' => [
                 'self' => route('api.recipes.show', $this),

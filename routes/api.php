@@ -11,7 +11,10 @@ Route::name('api.')->group(function() {
 
     Route::middleware('auth:sanctum')->group(function() {
         Route::post('/logout', [AuthController::class, 'logout']);
+
         Route::apiResource('users', UserController::class)->except(['store']);
+
         Route::apiResource('recipes', RecipeController::class);
+        Route::patch('/recipes/{recipe}/image', [RecipeController::class, 'uploadImage']);
     });
 });

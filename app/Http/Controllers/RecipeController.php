@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreRecipeRequest;
+use App\Http\Requests\UpdateImageRecipeRequest;
 use App\Http\Requests\UpdateRecipeRequest;
 use App\Http\Resources\RecipeResource;
 use App\Models\Recipe;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Storage;
 
 class RecipeController extends Controller
 {
@@ -53,6 +55,25 @@ class RecipeController extends Controller
         Gate::authorize('update', $recipe);
 
         $recipe->update( $request->all());
+
+        return RecipeResource::make($recipe);
+    }
+
+    public function uploadImage(UpdateImageRecipeRequest $request, Recipe $recipe)
+    {
+        Gate::authorize('update', $recipe);
+
+        if ($recipe->image_url) {
+            $relativePath = str_replace(asset('storage/'), '', $recipe->image_url);
+            Storage::disk('public')->delete($relativePath);
+        }
+        $path = $request->file('image')->store('recipes', 'public');
+
+        $url = asset('storage/' . $path);
+
+        $recipe->update([
+            'url_image' => $url,
+        ]);
 
         return RecipeResource::make($recipe);
     }
