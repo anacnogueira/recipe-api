@@ -27,4 +27,23 @@ class Recipe extends Model
     {
         return $this->reactions()->where('type', 'dislike')->count();
     }
+
+    public function views(): HasMany
+    {
+        return $this->hasMany(RecipeView::class);
+    }
+
+    public function scopeTopViewedBetween($query, $start, $end, $limit = 10)
+    {
+        return $query->withCount(['views' => function ($query) use ($start, $end) {
+            $query->whereBetween('created_at', [$start, $end]);
+        }])->orderByDesc('views_count')->take($limit);
+    }
+
+    public function scopeTopLikedBetween($query, $start, $end, $limit = 5)
+    {
+        return $query->withCount(['reactions' => function ($query) use ($start, $end) {
+            $query->where('type', 'like')->whereBetween('created_at', [$start, $end]);
+        }])->orderByDesc('reactions_count')->take($limit);
+    }
 }
