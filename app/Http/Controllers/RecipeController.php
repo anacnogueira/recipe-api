@@ -41,7 +41,7 @@ class RecipeController extends Controller
      */
     public function show(Recipe $recipe)
     {
-        //
+        return RecipeResource::make($recipe);
     }
 
     /**
