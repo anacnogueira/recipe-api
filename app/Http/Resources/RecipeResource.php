@@ -25,6 +25,8 @@ class RecipeResource extends JsonResource
             'category' => $this->category,
             'url_image' => $this->url_image,
             'user' => UserResource::make($this->whenLoaded('user')),
+            'likes' => $this->likesCount(),
+            'dislikes' => $this->dislikesCount(),
             'links' => [
                 'self' => route('api.recipes.show', $this),
             ],
