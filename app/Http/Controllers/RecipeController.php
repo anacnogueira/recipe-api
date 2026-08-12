@@ -15,7 +15,15 @@ class RecipeController extends Controller
      */
     public function index()
     {
-        //
+         $recipes = Recipe::query()
+            ->when(request()->string('with', '')->contains('user'),
+                fn($query) => $query->with(['user'])
+            )
+            ->when(request()->string('with', '')->contains('logs'),
+                fn($query) => $query->with(['logs'])
+            )
+            ->simplePaginate();
+        return RecipeResource::collection($recipes);
     }
 
     /**
