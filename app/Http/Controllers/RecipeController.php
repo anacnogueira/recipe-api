@@ -85,6 +85,8 @@ class RecipeController extends Controller
     {
         Gate::authorize('delete', $recipe);
 
+        $recipe->reactions()->delete();
+
         $recipe->delete();
 
         return response()->noContent();
