@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateRecipeRequest;
 use App\Http\Resources\RecipeResource;
 use App\Models\Recipe;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class RecipeController extends Controller
 {
@@ -49,6 +50,8 @@ class RecipeController extends Controller
      */
     public function update(UpdateRecipeRequest $request, Recipe $recipe)
     {
+        Gate::authorize('update', $recipe);
+
         $recipe->update( $request->all());
 
         return RecipeResource::make($recipe);
@@ -59,6 +62,8 @@ class RecipeController extends Controller
      */
     public function destroy(Recipe $recipe)
     {
+        Gate::authorize('delete', $recipe);
+
         $recipe->delete();
 
         return response()->noContent();
